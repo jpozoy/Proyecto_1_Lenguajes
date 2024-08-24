@@ -1,0 +1,11 @@
+{
+	"ventas":	[{
+			"producto":	"Laptop",
+			"cantidad":	5,
+			"precio":	1200.5
+		}, {
+			"producto":	"Smartphone",
+			"cantidad":	10,
+			"precio":	800
+		}]
+}
