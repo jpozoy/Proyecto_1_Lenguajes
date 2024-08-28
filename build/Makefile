@@ -487,6 +487,21 @@ fuzz_main/fast:
 .PHONY : fuzz_main/fast
 
 # target to build an object file
+importar.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/importar.o
+.PHONY : importar.o
+
+# target to preprocess a source file
+importar.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/importar.i
+.PHONY : importar.i
+
+# target to generate assembly for a file
+importar.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/importar.s
+.PHONY : importar.s
+
+# target to build an object file
 main.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.o
 .PHONY : main.o
@@ -538,6 +553,9 @@ help:
 	@echo "... print_value"
 	@echo "... readme_examples"
 	@echo "... unity"
+	@echo "... importar.o"
+	@echo "... importar.i"
+	@echo "... importar.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

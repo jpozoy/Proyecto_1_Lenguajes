@@ -1,0 +1,32 @@
+[
+    {
+        "venta_id": 1,
+        "fecha": "2021-01-01",
+        "producto_id": 109,
+        "producto_nombre": "Laptop",
+        "categoria": "Computadoras",
+        "cantidad": 5,
+        "precio_unitario": 1200.5,
+        "total": 6002.5
+    },
+    {
+        "venta_id": 2,
+        "fecha": "2021-01-01",
+        "producto_id": 110,
+        "producto_nombre": "Mouse",
+        "categoria": "Accesorios",
+        "cantidad": 10,
+        "precio_unitario": 20.5,
+        "total": 205
+    },
+    {
+        "venta_id": 3,
+        "fecha": "2021-01-02",
+        "producto_id": 109,
+        "producto_nombre": "Teclado",
+        "categoria": "Accesorios",
+        "cantidad": 3,
+        "precio_unitario": 1200.5,
+        "total": 3601.5
+    }
+]

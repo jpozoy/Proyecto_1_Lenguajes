@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/main.dir/importar.o"
+  "CMakeFiles/main.dir/importar.o.d"
   "CMakeFiles/main.dir/main.o"
   "CMakeFiles/main.dir/main.o.d"
   "main"

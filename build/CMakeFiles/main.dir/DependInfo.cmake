@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/jeff/lenguajes/proyecto-1/importar.c" "CMakeFiles/main.dir/importar.o" "gcc" "CMakeFiles/main.dir/importar.o.d"
   "/home/jeff/lenguajes/proyecto-1/main.c" "CMakeFiles/main.dir/main.o" "gcc" "CMakeFiles/main.dir/main.o.d"
   )
 

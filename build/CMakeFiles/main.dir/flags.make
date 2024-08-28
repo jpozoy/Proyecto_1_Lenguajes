@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/jeff/lenguajes/proyecto-1/cJSON/include
+C_INCLUDES = -I/home/jeff/lenguajes/proyecto-1/cJSON/include -I/home/jeff/lenguajes/proyecto-1
 
 C_FLAGS = 
 
