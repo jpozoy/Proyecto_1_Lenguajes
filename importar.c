@@ -74,10 +74,10 @@ Venta* cJSONtoVenta(cJSON *json, size_t *count) {
                 ventas[i].producto_id = producto_id->valueint;
             }
             if(cJSON_IsString(producto_nombre)){
-                strcpy(ventas[i].producto_nombre, producto_nombre->valuestring);
+                ventas[i].producto_nombre = strdup(producto_nombre->valuestring);
             }
             if (cJSON_IsString(categoria)){
-                strcpy(ventas[i].categoria, categoria->valuestring);
+                ventas[i].categoria = strdup(categoria->valuestring);
             }
             if (cJSON_IsNumber(cantidad)){
                 ventas[i].cantidad = cantidad->valueint;
@@ -93,4 +93,73 @@ Venta* cJSONtoVenta(cJSON *json, size_t *count) {
     *count = arraySize;
     return ventas;
     
+}
+
+// Función para cargar un archivo JSON y agregar sus datos al array global de ventas
+void cargarArchivo(const char *rutaArchivo, Venta **ventas, size_t *count, size_t *capacity) {
+    char *buffer = readFile(rutaArchivo);
+    if (buffer == NULL) {
+        return;
+    }
+
+    cJSON *json = cJSON_Parse(buffer);
+    free(buffer);
+    
+    if (json == NULL) {
+        printf("Error al parsear JSON del archivo: %s\n", rutaArchivo);
+        return;
+    }
+    
+    size_t arraySize;
+    Venta *nuevasVentas = cJSONtoVenta(json, &arraySize);
+    cJSON_Delete(json);
+    
+    if (nuevasVentas == NULL) {
+        return;
+    }
+
+    // Expandir el array global si es necesario
+    if (*count + arraySize > *capacity) {
+        size_t nuevaCapacidad = (*capacity) * 2;
+        while (*count + arraySize > nuevaCapacidad) {
+            nuevaCapacidad *= 2;
+        }
+        *ventas = (Venta *)realloc(*ventas, nuevaCapacidad * sizeof(Venta));
+        if (*ventas == NULL) {
+            printf("Error al asignar memoria\n");
+            free(nuevasVentas);
+            exit(EXIT_FAILURE);
+        }
+        *capacity = nuevaCapacidad;
+    }
+
+    // Copiar las nuevas ventas al array global
+    memcpy(*ventas + *count, nuevasVentas, arraySize * sizeof(Venta));
+    *count += arraySize;
+
+    free(nuevasVentas);
+}
+
+void pedir_cadena(char **cadena, const char *mensaje) {
+    size_t tamano = 0;
+    printf("%s", mensaje);
+    getline(cadena, &tamano, stdin);
+
+    // Eliminar el salto de línea al final
+    (*cadena)[strcspn(*cadena, "\n")] = 0;
+}
+
+void imprimirVentas(Venta *ventas, size_t count) {
+    for (size_t i = 0; i < count; ++i) {
+        printf("Venta %zu\n", i + 1);
+        printf("ID de venta: %d\n", ventas[i].venta_id);
+        printf("Fecha: %s\n", ventas[i].fecha);
+        printf("ID de producto: %d\n", ventas[i].producto_id);
+        printf("Nombre de producto: %s\n", ventas[i].producto_nombre);
+        printf("Categoria: %s\n", ventas[i].categoria);
+        printf("Cantidad: %d\n", ventas[i].cantidad);
+        printf("Precio unitario: %.2f\n", ventas[i].precio_unitario);
+        printf("Total: %.2f\n", ventas[i].total);
+        printf("\n");
+    }
 }

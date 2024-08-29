@@ -6,13 +6,19 @@
 
 #include <importar.h>
 
+#define INICIAL_CAPACIDAD 10
+
+// Definir el array global y su tamaño
+Venta *ventasGlobal = NULL;
+size_t ventasCount = 0;
+size_t ventasCapacity = INICIAL_CAPACIDAD;
+
 // Funciones para manejar cada opción del menú
 void option1() {
 
     int subChoice;
-    const char *ruta_archivo = "../data/ventas.json";
+    char *ruta_archivo = NULL;
 
-    
     while (1)
     {
     // Mostrar el submenú
@@ -22,46 +28,16 @@ void option1() {
     printf("(3) Regresar al menú principal\n");
     printf("Ingrese su elección: ");
     scanf("%d", &subChoice);
+    // Limpiar el buffer de entrada
+    while (getchar() != '\n');
     switch (subChoice)
     {
     case 1:
-        printf("Importando ventas\n");
-        char* data = readFile(ruta_archivo);
-        if(ruta_archivo == NULL){
-            printf("Error al leer el archivo\n");
-        }
-        else{
-            printf("Archivo leído correctamente:\n%s\n", data);
-        }
-        //Codigo de prueba
-        cJSON *json = cJSON_Parse(data);
-        if (json == NULL) {
-            printf("Error al parsear el archivo\n");
-        }
-        else{
-            printf("Archivo parseado correctamente\n");
-        }
-
-        size_t count = 0;
-        Venta *ventas = cJSONtoVenta(json, &count);
-        if (ventas != NULL) {
-            for (size_t i = 0; i < count; ++i){
-                printf("Venta %zu\n", i + 1);
-                printf("ID: %d\n", ventas[i].venta_id);
-                printf("Fecha: %s\n", ventas[i].fecha);
-                printf("Producto ID: %d\n", ventas[i].producto_id);
-                printf("Producto: %s\n", ventas[i].producto_nombre);
-                printf("Categoria: %s\n", ventas[i].categoria);
-                printf("Cantidad: %d\n", ventas[i].cantidad);
-                printf("Precio unitario: %.2f\n", ventas[i].precio_unitario);
-                printf("Total: %.2f\n", ventas[i].total);
-            }
-        }
-        cJSON_Delete(json);
-        free(data);
+        
         break;
     case 2:
         printf("Agregando ventas\n");
+        
         break;
     case 3:
         printf("Regresando al menú principal\n");
@@ -76,6 +52,8 @@ void option1() {
 
 void option2() {
     printf("Opción 2 seleccionada.\n");
+    char *variableNombre = NULL;
+    // pedir_cadena(&variableNombre, "Ingrese el nombre de la variable: ");
 }
 
 void option3() {
@@ -98,6 +76,12 @@ void quit() {
 
 int main() {
     int choice;
+        // Inicializar el array global de ventas
+    ventasGlobal = (Venta *)malloc(ventasCapacity * sizeof(Venta));
+    if (ventasGlobal == NULL) {
+        printf("Error al asignar memoria\n");
+        return EXIT_FAILURE;
+    }
 
     while (1) {
         // Mostrar el menú
@@ -111,12 +95,22 @@ int main() {
         printf("Ingrese su elección: ");
         scanf("%d", &choice);
 
+        // Limpiar el buffer de entrada
+        while (getchar() != '\n');
+
         // Manejar la opción seleccionada
         switch (choice) {
             case 1:
                 option1();
+                
                 break;
             case 2:
+                char *rutaArchivo = NULL;
+                pedir_cadena(&rutaArchivo, "Ingrese la ruta del archivo JSON: ");
+                cargarArchivo(rutaArchivo, &ventasGlobal, &ventasCount, &ventasCapacity);
+                free(rutaArchivo);
+                imprimirVentas(ventasGlobal, ventasCount);
+                break;
                 option2();
                 break;
             case 3:

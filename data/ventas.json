@@ -14,7 +14,7 @@
         "fecha": "2021-01-01",
         "producto_id": 110,
         "producto_nombre": "Mouse",
-        "categoria": "Accesorios",
+        "categoria": "Mouse",
         "cantidad": 10,
         "precio_unitario": 20.5,
         "total": 205
