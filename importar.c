@@ -313,3 +313,55 @@ void calcularVentasPorMesYAnio(Venta *ventas, size_t count) {
 
     free(ventasPorMes);
 }
+
+void mostrarTotalVentasPorAno(Venta *ventas, size_t count) {
+    // Suponemos que un año no tendrá más de 100 ventas diferentes
+    int maxYears = 100;
+    int *years = (int *)malloc(maxYears * sizeof(int));
+    float *totals = (float *)malloc(maxYears * sizeof(float));
+    size_t yearCount = 0;
+
+    // Inicializar los totales a 0
+    for (size_t i = 0; i < maxYears; ++i) {
+        totals[i] = 0.0f;
+    }
+
+    // Encontrar todos los años presentes en las ventas y sumar los totales
+    for (size_t i = 0; i < count; ++i) {
+        int year, month, day;
+        sscanf(ventas[i].fecha, "%d-%d-%d", &year, &month, &day);
+
+        // Verificar si el año ya está en la lista de años
+        int yearExists = 0;
+        size_t j;
+        for (j = 0; j < yearCount; ++j) {
+            if (years[j] == year) {
+                yearExists = 1;
+                break;
+            }
+        }
+
+        // Si el año no existe en la lista, añadirlo
+        if (!yearExists) {
+            if (yearCount >= maxYears) {
+                maxYears *= 2;
+                years = (int *)realloc(years, maxYears * sizeof(int));
+                totals = (float *)realloc(totals, maxYears * sizeof(float));
+            }
+            years[yearCount] = year;
+            totals[yearCount] = ventas[i].total;
+            yearCount++;
+        } else {
+            // Si el año ya existe, sumar el total
+            totals[j] += ventas[i].total;
+        }
+    }
+
+    // Mostrar los totales por año
+    for (size_t i = 0; i < yearCount; ++i) {
+        printf("Total de ventas en %d: %.2f\n", years[i], totals[i]);
+    }
+
+    free(years);
+    free(totals);
+}

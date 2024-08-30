@@ -13,51 +13,65 @@ Venta *ventasGlobal = NULL;
 size_t ventasCount = 0;
 size_t ventasCapacity = INICIAL_CAPACIDAD;
 
-// // Funciones para manejar cada opción del menú
-// void option1() {
+// Funciones para manejar cada opción del menú
+void option1() {
+    char *rutaArchivo = NULL;
+    pedir_cadena(&rutaArchivo, "Ingrese la ruta del archivo JSON: ");
+    cargarArchivo(rutaArchivo, &ventasGlobal, &ventasCount, &ventasCapacity);
+    free(rutaArchivo);
+    imprimirVentas(ventasGlobal, ventasCount);
 
-//     int subChoice;
-//     char *ruta_archivo = NULL;
-
-//     while (1)
-//     {
-//     // Mostrar el submenú
-//     printf("---- SUBMENÚ IMPORTACIÓN----\n");
-//     printf("(1) Importar ventas\n"); // Solicitar ruta de archivo para importar los registros
-//     printf("(2) Agregar ventas\n"); // Solicitar ruta de archivo diferente para guardar los nuevos registros ???
-//     printf("(3) Regresar al menú principal\n");
-//     printf("Ingrese su elección: ");
-//     scanf("%d", &subChoice);
-//     // Limpiar el buffer de entrada
-//     while (getchar() != '\n');
-//     switch (subChoice)
-//     {
-//     case 1:
-        
-//         break;
-//     case 2:
-//         printf("Agregando ventas\n");
-        
-//         break;
-//     case 3:
-//         printf("Regresando al menú principal\n");
-//         return;
-//     default:
-//         break;
-//     }
-//     }
-    
-    
-// }
+}
 
 void option2() {
-    printf("Opción 2 seleccionada.\n");
-    char *variableNombre = NULL;
-    // pedir_cadena(&variableNombre, "Ingrese el nombre de la variable: ");
+    int subChoice;
+
+    while (1) {
+        // Mostrar submenu
+        printf("---- SUBMENÚ PROCESAMIENTO ----\n");
+        printf("(1) Completar datos faltantes\n");
+        printf("(2) Eliminar duplicados\n");
+        printf("(3) Regresar al menú principal\n");
+        printf("Ingrese su elección: ");
+        scanf("%d", &subChoice);
+        // Limpiar el buffer de entrada
+        while (getchar() != '\n');
+        
+        switch (subChoice) {
+            case 1:
+                if (ventasCount > 0) {
+                    completarCantidadConPromedio(ventasGlobal, ventasCount);
+                    completarPrecioConModa(ventasGlobal, ventasCount);
+                    actualizarTotal(ventasGlobal, ventasCount);
+                    imprimirVentas(ventasGlobal, ventasCount);
+                } else {
+                    printf("No hay ventas cargadas para completar cantidades.\n");
+                }
+                break;
+            case 2:
+                printf("Eliminando duplicados\n");
+                break;
+            case 3:
+                printf("Regresando al menú principal\n");
+                return;
+            default:
+                break;
+        }
+    }
 }
 
 void option3() {
-    printf("Opción 3 seleccionada.\n");
+    printf("---- Analisis de datos ----\n");
+    printf("Total de ventas.\n");
+    imprimirTotalDeVentas(ventasGlobal, ventasCount);
+    if(ventasCount > 0) {
+        printf("Ventas por mes.\n");
+        calcularVentasPorMesYAnio(ventasGlobal, ventasCount);
+        printf("Ventas por año.\n");
+        mostrarTotalVentasPorAno(ventasGlobal, ventasCount);
+    } else {
+        printf("No hay ventas cargadas para calcular ventas por mes y año.\n");
+    }
 }
 
 void option4() {
@@ -85,7 +99,7 @@ int main() {
 
     while (1) {
         // Mostrar el menú
-        printf("---- MENÚ PRINCIPAL----\n");
+        printf("---- MENÚ PRINCIPAL ----\n");
         printf("(1) Importacion de datos\n");
         printf("(2) Procesamiento de datos\n");
         printf("(3) Analisis de datos\n");
@@ -101,37 +115,15 @@ int main() {
         // Manejar la opción seleccionada
         switch (choice) {
             case 1:
-                // option1();
-                
+                option1();     
                 break;
             case 2:
-                char *rutaArchivo = NULL;
-                pedir_cadena(&rutaArchivo, "Ingrese la ruta del archivo JSON: ");
-                cargarArchivo(rutaArchivo, &ventasGlobal, &ventasCount, &ventasCapacity);
-                free(rutaArchivo);
-                imprimirVentas(ventasGlobal, ventasCount);
-                break;
                 option2();
                 break;
             case 3:
-                if (ventasCount > 0) {
-                    completarCantidadConPromedio(ventasGlobal, ventasCount);
-                    completarPrecioConModa(ventasGlobal, ventasCount);
-                    actualizarTotal(ventasGlobal, ventasCount);
-                    imprimirVentas(ventasGlobal, ventasCount);
-                } else {
-                    printf("No hay ventas cargadas para completar cantidades.\n");
-                }
-                break;
                 option3();
                 break;
             case 4:
-                imprimirTotalDeVentas(ventasGlobal, ventasCount);
-                if(ventasCount > 0) {
-                    calcularVentasPorMesYAnio(ventasGlobal, ventasCount);
-                } else {
-                    printf("No hay ventas cargadas para calcular ventas por mes y año.\n");
-                }
                 option4();
                 break;
             case 5:

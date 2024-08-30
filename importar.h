@@ -65,5 +65,7 @@ void parsearFecha(const char *fecha, int *year, int *month);
 void calcularVentasPorMesYAnio(Venta *ventas, size_t count);
 
 
+void mostrarTotalVentasPorAno(Venta *ventas, size_t count);
+
 
 #endif
