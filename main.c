@@ -13,42 +13,42 @@ Venta *ventasGlobal = NULL;
 size_t ventasCount = 0;
 size_t ventasCapacity = INICIAL_CAPACIDAD;
 
-// Funciones para manejar cada opción del menú
-void option1() {
+// // Funciones para manejar cada opción del menú
+// void option1() {
 
-    int subChoice;
-    char *ruta_archivo = NULL;
+//     int subChoice;
+//     char *ruta_archivo = NULL;
 
-    while (1)
-    {
-    // Mostrar el submenú
-    printf("---- SUBMENÚ IMPORTACIÓN----\n");
-    printf("(1) Importar ventas\n"); // Solicitar ruta de archivo para importar los registros
-    printf("(2) Agregar ventas\n"); // Solicitar ruta de archivo diferente para guardar los nuevos registros ???
-    printf("(3) Regresar al menú principal\n");
-    printf("Ingrese su elección: ");
-    scanf("%d", &subChoice);
-    // Limpiar el buffer de entrada
-    while (getchar() != '\n');
-    switch (subChoice)
-    {
-    case 1:
+//     while (1)
+//     {
+//     // Mostrar el submenú
+//     printf("---- SUBMENÚ IMPORTACIÓN----\n");
+//     printf("(1) Importar ventas\n"); // Solicitar ruta de archivo para importar los registros
+//     printf("(2) Agregar ventas\n"); // Solicitar ruta de archivo diferente para guardar los nuevos registros ???
+//     printf("(3) Regresar al menú principal\n");
+//     printf("Ingrese su elección: ");
+//     scanf("%d", &subChoice);
+//     // Limpiar el buffer de entrada
+//     while (getchar() != '\n');
+//     switch (subChoice)
+//     {
+//     case 1:
         
-        break;
-    case 2:
-        printf("Agregando ventas\n");
+//         break;
+//     case 2:
+//         printf("Agregando ventas\n");
         
-        break;
-    case 3:
-        printf("Regresando al menú principal\n");
-        return;
-    default:
-        break;
-    }
-    }
+//         break;
+//     case 3:
+//         printf("Regresando al menú principal\n");
+//         return;
+//     default:
+//         break;
+//     }
+//     }
     
     
-}
+// }
 
 void option2() {
     printf("Opción 2 seleccionada.\n");
@@ -101,7 +101,7 @@ int main() {
         // Manejar la opción seleccionada
         switch (choice) {
             case 1:
-                option1();
+                // option1();
                 
                 break;
             case 2:
@@ -114,9 +114,24 @@ int main() {
                 option2();
                 break;
             case 3:
+                if (ventasCount > 0) {
+                    completarCantidadConPromedio(ventasGlobal, ventasCount);
+                    completarPrecioConModa(ventasGlobal, ventasCount);
+                    actualizarTotal(ventasGlobal, ventasCount);
+                    imprimirVentas(ventasGlobal, ventasCount);
+                } else {
+                    printf("No hay ventas cargadas para completar cantidades.\n");
+                }
+                break;
                 option3();
                 break;
             case 4:
+                imprimirTotalDeVentas(ventasGlobal, ventasCount);
+                if(ventasCount > 0) {
+                    calcularVentasPorMesYAnio(ventasGlobal, ventasCount);
+                } else {
+                    printf("No hay ventas cargadas para calcular ventas por mes y año.\n");
+                }
                 option4();
                 break;
             case 5:

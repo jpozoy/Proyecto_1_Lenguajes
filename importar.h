@@ -8,7 +8,7 @@
 typedef struct
 {
     int venta_id;
-    char fecha[10];
+    char fecha[11];
     int producto_id;
     char* producto_nombre;
     char* categoria;
@@ -16,6 +16,12 @@ typedef struct
     float precio_unitario;
     float total;
 } Venta;
+
+typedef struct {
+    int year;
+    int month;
+    double totalVentas;
+} VentasPorMes;
 
 // Funcion para leer un archivo y retornar su contenido
 char* readFile(const char* rutaArchivo);
@@ -34,6 +40,29 @@ void pedir_cadena(char** cadena, const char* mensaje);
 
 // Función para imprimir ventas
 void imprimirVentas(Venta *ventas, size_t count);
+
+// Función para procesar datos de cantidad
+void completarCantidadConPromedio(Venta *ventas, size_t count);
+
+// Función para procesar datos de precio unitario
+
+int compararFloat(const void *a, const void *b);
+
+float calcularModa(float *precios, size_t count);
+
+void completarPrecioConModa(Venta *ventas, size_t count);
+
+void actualizarTotal(Venta *ventas, size_t count);
+
+// Analisis de datos
+
+// Total de ventas
+void imprimirTotalDeVentas(Venta *ventas, size_t count);
+
+// Ventas anuales y por mes
+void parsearFecha(const char *fecha, int *year, int *month);
+
+void calcularVentasPorMesYAnio(Venta *ventas, size_t count);
 
 
 
