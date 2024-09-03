@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <cjson/cJSON.h>
+#include "cJSON/cJSON.h"
 
 // Estructura de una venta
 typedef struct
@@ -192,6 +192,31 @@ Funcionamiento: Encuentra el mes con mayor venta.
 Restricciones: Ninguna
 */
 void mesConMayorVenta(Venta *ventas, size_t count);
+
+/*
+Entrada: Venta* venta,
+Salida: cJSON*,
+Funcionamiento: Convierte una venta a un objeto JSON. 
+Restricciones: ninguna
+*/
+cJSON* convertirVentaAJson(Venta *venta);
+
+/*
+Entrada: Venta* ventas, size_t count,
+Salida: cJSON*,
+Funcionamiento: Convierte un array de ventas a un array de JSON.
+Restricciones: Ninguna
+*/
+cJSON* convertirVentasAJsonArray(Venta *ventas, size_t count);
+
+/*
+Entrada: rutaArchivo: const char*, Venta* ventas, size_t count,
+Salida: void,
+Funcionamiento: Escribe un array de ventas en un archivo JSON.
+Restricciones: Debe haber ventas en el array.
+*/
+void escribirVentasAJson(const char *rutaArchivo, Venta *ventas, size_t count);
+
 
 
 #endif

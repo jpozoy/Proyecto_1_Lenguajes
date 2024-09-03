@@ -50,4 +50,4 @@ CMakeFiles/main.dir/importar.o: \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/strings.h /usr/include/cjson/cJSON.h
+ /usr/include/strings.h /home/jeff/lenguajes/proyecto-1/cJSON/cJSON.h

@@ -60,7 +60,7 @@ CMakeFiles/main.dir/importar.o: ../importar.c \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/strings.h \
-  /usr/include/cjson/cJSON.h
+  ../cJSON/cJSON.h
 
 CMakeFiles/main.dir/main.o: ../main.c \
   /usr/include/stdc-predef.h \
@@ -88,7 +88,7 @@ CMakeFiles/main.dir/main.o: ../main.c \
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/include/cjson/cJSON.h \
+  ../cJSON/cJSON.h \
   /usr/include/stdlib.h \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
@@ -125,8 +125,6 @@ CMakeFiles/main.dir/main.o: ../main.c \
 
 
 ../main.c:
-
-/usr/include/cjson/cJSON.h:
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
@@ -219,6 +217,8 @@ CMakeFiles/main.dir/main.o: ../main.c \
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
+
+../cJSON/cJSON.h:
 
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
 

@@ -1,10 +1,12 @@
 #include <stdio.h>
-#include <cjson/cJSON.h>
+#include "cJSON/cJSON.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include <importar.h>
+
+#define Memoria "../data/memoria.json"
 
 #define INICIAL_CAPACIDAD 10
 
@@ -21,10 +23,9 @@ Restricciones: Ninguna
 */
 void option1() {
     char *rutaArchivo = NULL;
-    pedir_cadena(&rutaArchivo, "Ingrese la ruta del archivo JSON: ");
+    pedir_cadena(&rutaArchivo, "Ingrese la ruta del archivo JSON:");
     cargarArchivo(rutaArchivo, &ventasGlobal, &ventasCount, &ventasCapacity);
     free(rutaArchivo);
-    imprimirVentas(ventasGlobal, ventasCount);
 
 }
 
@@ -46,7 +47,7 @@ void option2() {
         printf("Ingrese su elección: ");
         scanf("%d", &subChoice);
         // Limpiar el buffer de entrada
-        // while (getchar() != '\n');
+        while (getchar() != '\n');
         
         switch (subChoice) {
             case 1:
@@ -123,6 +124,7 @@ Funcionamiento: Finaliza el programa.
 Restricciones: Ninguna
 */
 void quit() {
+    escribirVentasAJson(Memoria, ventasGlobal, ventasCount);
     printf("Saliendo del programa...\n");
     exit(0);
 }
@@ -136,6 +138,9 @@ int main() {
         printf("Error al asignar memoria\n");
         return EXIT_FAILURE;
     }
+
+    //Cargar memoria si existe
+    cargarArchivo(Memoria, &ventasGlobal, &ventasCount, &ventasCapacity);
 
     while (1) {
         // Mostrar el menú

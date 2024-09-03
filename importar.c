@@ -1,10 +1,8 @@
 #include "importar.h"
 #include <stdio.h>
-#include <cjson/cJSON.h>
+#include "cJSON/cJSON.h"
 #include <string.h>
 #include <stdlib.h>
-
-#define RUTA_ARCHIVO "../data/ventas.json"
 
 char* readFile(const char* rutaArchivo) {
     FILE *archivo = fopen(rutaArchivo, "r");
@@ -136,6 +134,7 @@ void cargarArchivo(const char *rutaArchivo, Venta **ventas, size_t *count, size_
     // Copiar las nuevas ventas al array global
     memcpy(*ventas + *count, nuevasVentas, arraySize * sizeof(Venta));
     *count += arraySize;
+    printf("Se han cargado %zu ventas desde el archivo: %s\n", arraySize, rutaArchivo);
 
     free(nuevasVentas);
 }
@@ -512,4 +511,59 @@ void mesConMayorVenta(Venta *ventas, size_t count) {
     printf("El mes con mayor venta es: %s con un total de %.2f\n", mesMayorVenta, mayorVenta);
 
     free(totalesPorMes);
+}
+
+// 
+
+cJSON* convertirVentaAJson(Venta *venta) {
+    cJSON *ventaObj = cJSON_CreateObject();
+
+    cJSON_AddNumberToObject(ventaObj, "venta_id", venta->venta_id);
+    cJSON_AddStringToObject(ventaObj, "fecha", venta->fecha);
+    cJSON_AddNumberToObject(ventaObj, "producto_id", venta->producto_id);
+    cJSON_AddStringToObject(ventaObj, "producto_nombre", venta->producto_nombre);
+    cJSON_AddStringToObject(ventaObj, "categoria", venta->categoria);
+    cJSON_AddNumberToObject(ventaObj, "cantidad", venta->cantidad);
+    cJSON_AddNumberToObject(ventaObj, "precio_unitario", venta->precio_unitario);
+    cJSON_AddNumberToObject(ventaObj, "total", venta->total);
+
+    return ventaObj;
+}
+
+cJSON* convertirVentasAJsonArray(Venta *ventas, size_t count) {
+    cJSON *jsonArray = cJSON_CreateArray();
+
+    for (size_t i = 0; i < count; ++i) {
+        cJSON *ventaObj = convertirVentaAJson(&ventas[i]);
+        cJSON_AddItemToArray(jsonArray, ventaObj);
+    }
+
+    return jsonArray;
+}
+
+void escribirVentasAJson(const char *rutaArchivo, Venta *ventas, size_t count) {
+    if (ventas == NULL || count == 0) {
+        printf("No hay ventas disponibles para guardar en memoria.\n");
+        return;
+    }
+
+    cJSON *jsonArray = convertirVentasAJsonArray(ventas, count);
+    char *jsonString = cJSON_Print(jsonArray);
+
+    FILE *archivo = fopen(rutaArchivo, "w");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo para escribir: %s\n", rutaArchivo);
+        cJSON_Delete(jsonArray);
+        free(jsonString);
+        return;
+    }
+
+    fprintf(archivo, "%s", jsonString);
+    fclose(archivo);
+
+    // Liberar memoria
+    cJSON_Delete(jsonArray);
+    free(jsonString);
+
+    printf("Datos de ventas escritos correctamente en el archivo JSON: %s\n", rutaArchivo);
 }
