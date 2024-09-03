@@ -35,7 +35,7 @@ void option2() {
         printf("Ingrese su elección: ");
         scanf("%d", &subChoice);
         // Limpiar el buffer de entrada
-        while (getchar() != '\n');
+        // while (getchar() != '\n');
         
         switch (subChoice) {
             case 1:
@@ -49,6 +49,7 @@ void option2() {
                 }
                 break;
             case 2:
+                eliminarDuplicados(&ventasGlobal, &ventasCount);
                 printf("Eliminando duplicados\n");
                 break;
             case 3:
@@ -76,10 +77,13 @@ void option3() {
 
 void option4() {
     printf("Opción 4 seleccionada.\n");
+    imprimirVentas(ventasGlobal, ventasCount);
+    
 }
 
 void option5() {
     printf("Opción 5 seleccionada.\n");
+    mostrarTopCategorias(ventasGlobal, ventasCount);
 }
 
 void quit() {

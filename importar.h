@@ -23,6 +23,11 @@ typedef struct {
     double totalVentas;
 } VentasPorMes;
 
+typedef struct CategoriaTotal {
+    char *categoria;
+    float total;
+} CategoriaTotal;
+
 // Funcion para leer un archivo y retornar su contenido
 char* readFile(const char* rutaArchivo);
 
@@ -64,8 +69,13 @@ void parsearFecha(const char *fecha, int *year, int *month);
 
 void calcularVentasPorMesYAnio(Venta *ventas, size_t count);
 
-
 void mostrarTotalVentasPorAno(Venta *ventas, size_t count);
+
+void mostrarTopCategorias(Venta *ventas, size_t count);
+
+int sonVentasIguales(Venta *venta1, Venta *venta2);
+
+void eliminarDuplicados(Venta **ventas, size_t *count);
 
 
 #endif

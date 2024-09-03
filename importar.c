@@ -183,6 +183,7 @@ void completarCantidadConPromedio(Venta *ventas, size_t count) {
     for (size_t i = 0; i < count; ++i) {
         if (ventas[i].cantidad == 0) {
             ventas[i].cantidad = promedio;
+            printf("Cantidad faltante en venta ID:%d completada con el promedio de %d\n", ventas[i].venta_id, promedio);
         }
     }
 
@@ -249,6 +250,7 @@ void completarPrecioConModa(Venta *ventas, size_t count) {
     for (size_t i = 0; i < count; ++i) {
         if (ventas[i].precio_unitario == 0) {
             ventas[i].precio_unitario = moda;
+            printf("Precio faltante en venta ID:%d completado con la moda de %.2f\n", ventas[i].venta_id, moda);
         }
     }
 
@@ -315,7 +317,6 @@ void calcularVentasPorMesYAnio(Venta *ventas, size_t count) {
 }
 
 void mostrarTotalVentasPorAno(Venta *ventas, size_t count) {
-    // Suponemos que un año no tendrá más de 100 ventas diferentes
     int maxYears = 100;
     int *years = (int *)malloc(maxYears * sizeof(int));
     float *totals = (float *)malloc(maxYears * sizeof(float));
@@ -364,4 +365,102 @@ void mostrarTotalVentasPorAno(Venta *ventas, size_t count) {
 
     free(years);
     free(totals);
+}
+
+void mostrarTopCategorias(Venta *ventas, size_t count) {
+    int maxCategorias = 100;
+    CategoriaTotal *categoriasTotales = (CategoriaTotal *)malloc(maxCategorias * sizeof(CategoriaTotal));
+    size_t categoriaCount = 0;
+
+    // Inicializar los totales a 0
+    for (size_t i = 0; i < maxCategorias; ++i) {
+        categoriasTotales[i].total = 0.0f;
+        categoriasTotales[i].categoria = NULL;
+    }
+
+    // Encontrar todas las categorías presentes en las ventas y sumar los totales
+    for (size_t i = 0; i < count; ++i) {
+        if (ventas[i].categoria == NULL) {
+            continue; // Saltar si la categoría es nula
+        }
+
+        // Verificar si la categoría ya está en la lista de categorías
+        int categoriaExists = 0;
+        size_t j;
+        for (j = 0; j < categoriaCount; ++j) {
+            if (strcmp(categoriasTotales[j].categoria, ventas[i].categoria) == 0) {
+                categoriaExists = 1;
+                break;
+            }
+        }
+
+        // Si la categoría no existe en la lista, añadirla
+        if (!categoriaExists) {
+            if (categoriaCount >= maxCategorias) {
+                maxCategorias *= 2;
+                categoriasTotales = (CategoriaTotal *)realloc(categoriasTotales, maxCategorias * sizeof(CategoriaTotal));
+            }
+            categoriasTotales[categoriaCount].categoria = ventas[i].categoria;
+            categoriasTotales[categoriaCount].total = ventas[i].total;
+            categoriaCount++;
+        } else {
+            // Si la categoría ya existe, sumar el total
+            categoriasTotales[j].total += ventas[i].total;
+        }
+    }
+
+    // Ordenar las categorías por total de ventas de forma descendente
+    for (size_t i = 0; i < categoriaCount - 1; ++i) {
+        for (size_t j = i + 1; j < categoriaCount; ++j) {
+            if (categoriasTotales[i].total < categoriasTotales[j].total) {
+                CategoriaTotal temp = categoriasTotales[i];
+                categoriasTotales[i] = categoriasTotales[j];
+                categoriasTotales[j] = temp;
+            }
+        }
+    }
+
+    // Mostrar las 5 categorías más vendidas o menos si no hay tantas
+    size_t top = categoriaCount < 5 ? categoriaCount : 5;
+    for (size_t i = 0; i < top; ++i) {
+        printf("Categoría: %s, Total Vendido: %.2f\n", categoriasTotales[i].categoria, categoriasTotales[i].total);
+    }
+
+    free(categoriasTotales);
+}
+
+int sonVentasIguales(Venta *venta1, Venta *venta2) {
+    return (venta1->venta_id == venta2->venta_id) &&
+           (strcmp(venta1->fecha, venta2->fecha) == 0) &&
+           (venta1->producto_id == venta2->producto_id) &&
+           (strcmp(venta1->producto_nombre, venta2->producto_nombre) == 0) &&
+           (strcmp(venta1->categoria, venta2->categoria) == 0) &&
+           (venta1->cantidad == venta2->cantidad) &&
+           (venta1->precio_unitario == venta2->precio_unitario) &&
+           (venta1->total == venta2->total);
+}
+
+void eliminarDuplicados(Venta **ventas, size_t *count) {
+    size_t nuevoCount = 0;
+    Venta *ventasFiltradas = (Venta *)malloc(*count * sizeof(Venta));
+
+    for (size_t i = 0; i < *count; ++i) {
+        int esDuplicado = 0;
+        for (size_t j = 0; j < nuevoCount; ++j) {
+            if (sonVentasIguales(&(*ventas)[i], &ventasFiltradas[j])) {
+                esDuplicado = 1;
+                printf("Venta duplicada eliminada ID: %d\n", (*ventas)[i].venta_id);
+                break;
+            }
+        }
+
+        if (!esDuplicado) {
+            ventasFiltradas[nuevoCount] = (*ventas)[i];
+            nuevoCount++;
+        }
+    }
+
+    free(*ventas);
+    *ventas = ventasFiltradas;
+    *count = nuevoCount;
 }
