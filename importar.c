@@ -316,7 +316,7 @@ void calcularVentasPorMesYAnio(Venta *ventas, size_t count) {
     free(ventasPorMes);
 }
 
-void mostrarTotalVentasPorAno(Venta *ventas, size_t count) {
+void mostrarTotalVentasPorAnio(Venta *ventas, size_t count) {
     int maxYears = 100;
     int *years = (int *)malloc(maxYears * sizeof(int));
     float *totals = (float *)malloc(maxYears * sizeof(float));
@@ -463,4 +463,53 @@ void eliminarDuplicados(Venta **ventas, size_t *count) {
     free(*ventas);
     *ventas = ventasFiltradas;
     *count = nuevoCount;
+}
+
+void mesConMayorVenta(Venta *ventas, size_t count) {
+    if (ventas == NULL || count == 0) {
+        printf("No hay ventas disponibles.\n");
+        return;
+    }
+
+    // Array para almacenar las ventas mensuales
+    TotalVentasMes *totalesPorMes = NULL;
+    size_t mesesCount = 0;
+
+    for (size_t i = 0; i < count; ++i) {
+        char mesActual[8];
+        sscanf(ventas[i].fecha, "%7s", mesActual);
+
+        // Verificar si el mes ya está en el array de totales por mes
+        int mesEncontrado = 0;
+        for (size_t j = 0; j < mesesCount; ++j) {
+            if (strcmp(totalesPorMes[j].mes, mesActual) == 0) {
+                totalesPorMes[j].totalVentas += ventas[i].total;
+                mesEncontrado = 1;
+                break;
+            }
+        }
+
+        // Si no se encontró el mes, agregarlo
+        if (!mesEncontrado) {
+            totalesPorMes = realloc(totalesPorMes, (mesesCount + 1) * sizeof(TotalVentasMes));
+            strcpy(totalesPorMes[mesesCount].mes, mesActual);
+            totalesPorMes[mesesCount].totalVentas = ventas[i].total;
+            mesesCount++;
+        }
+    }
+
+    // Encontrar el mes con mayor venta
+    double mayorVenta = 0;
+    char mesMayorVenta[8] = "";
+
+    for (size_t i = 0; i < mesesCount; ++i) {
+        if (totalesPorMes[i].totalVentas > mayorVenta) {
+            mayorVenta = totalesPorMes[i].totalVentas;
+            strcpy(mesMayorVenta, totalesPorMes[i].mes);
+        }
+    }
+
+    printf("El mes con mayor venta es: %s con un total de %.2f\n", mesMayorVenta, mayorVenta);
+
+    free(totalesPorMes);
 }

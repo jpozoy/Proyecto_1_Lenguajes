@@ -13,7 +13,12 @@ Venta *ventasGlobal = NULL;
 size_t ventasCount = 0;
 size_t ventasCapacity = INICIAL_CAPACIDAD;
 
-// Funciones para manejar cada opción del menú
+/*
+Entrada: void,
+Salida: void,
+Funcionamiento: Carga el archivo con la ruta solicitada por el usuario.
+Restricciones: Ninguna
+*/
 void option1() {
     char *rutaArchivo = NULL;
     pedir_cadena(&rutaArchivo, "Ingrese la ruta del archivo JSON: ");
@@ -23,6 +28,12 @@ void option1() {
 
 }
 
+/*
+Entrada: void,
+Salida: void,
+Funcionamiento: Muestra el submenu de procesamiento.
+Restricciones: Ninguna
+*/
 void option2() {
     int subChoice;
 
@@ -61,6 +72,12 @@ void option2() {
     }
 }
 
+/*
+Entrada: void,
+Salida: void,
+Funcionamiento: Muestra el total de ventas, ventas por mes y ventas por año.
+Restricciones: Ninguna
+*/
 void option3() {
     printf("---- Analisis de datos ----\n");
     printf("Total de ventas.\n");
@@ -69,23 +86,42 @@ void option3() {
         printf("Ventas por mes.\n");
         calcularVentasPorMesYAnio(ventasGlobal, ventasCount);
         printf("Ventas por año.\n");
-        mostrarTotalVentasPorAno(ventasGlobal, ventasCount);
+        mostrarTotalVentasPorAnio(ventasGlobal, ventasCount);
     } else {
         printf("No hay ventas cargadas para calcular ventas por mes y año.\n");
     }
 }
 
+/*
+Entrada: void,
+Salida: void,
+Funcionamiento: Muestra el mes con mayor ventas
+Restricciones: Ninguna
+*/
 void option4() {
     printf("Opción 4 seleccionada.\n");
-    imprimirVentas(ventasGlobal, ventasCount);
+    mesConMayorVenta(ventasGlobal, ventasCount);
+    // imprimirVentas(ventasGlobal, ventasCount);
     
 }
 
+/*
+Entrada: void,
+Salida: void,
+Funcionamiento: Muestra el top de categorías.
+Restricciones: Ninguna
+*/
 void option5() {
     printf("Opción 5 seleccionada.\n");
     mostrarTopCategorias(ventasGlobal, ventasCount);
 }
 
+/*
+Entrada: void,
+Salida: void,
+Funcionamiento: Finaliza el programa.
+Restricciones: Ninguna
+*/
 void quit() {
     printf("Saliendo del programa...\n");
     exit(0);

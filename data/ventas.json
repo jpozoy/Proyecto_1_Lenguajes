@@ -21,12 +21,12 @@
     },
     {
         "venta_id": 3,
-        "fecha": "2021-01-02",
+        "fecha": "2021-04-02",
         "producto_id": 109,
         "producto_nombre": "Teclado",
         "categoria": "Accesorios",
         "cantidad": 3,
         "precio_unitario": 1200.5,
-        "total": 3601.5
+        "total": 34601.5
     }
 ]
