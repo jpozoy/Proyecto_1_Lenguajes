@@ -1,8 +1,2 @@
 # Ignorar todos los archivos dentro de la carpeta build
-build/*
-
-# No ignorar la carpeta build
-!build/
-
-# No ignorar subcarpetas dentro de build (si las hay)
-!build/**/
+build/
